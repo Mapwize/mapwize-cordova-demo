@@ -1,2 +1,2 @@
-# mapwize-dordova-demo
+# Mapwize Cordova Demo
 Demo app for the Mapwize Cordova Plugin
