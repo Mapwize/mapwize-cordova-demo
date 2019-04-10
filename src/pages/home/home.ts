@@ -36,6 +36,13 @@ export class HomePage {
 
       });
     this.setCallbackClicked();
+    // setTimeout(() => { 
+    //   console.log("timeout happened...");
+    //   this.mapwizeView.close(
+    //           (res) => {console.log("MapwizeView close successfully returned: " + JSON.stringify(res))},
+    //           (err) => {console.log("MapwizeView close failed err: " + JSON.stringify(err))}
+    //         );
+    // }, 6000);
   }
 
   selectPlaceClicked() {
@@ -69,15 +76,18 @@ export class HomePage {
     console.log("setCallbackClicked...");
     this.mapwizeView.setCallback(
         {
-          
           DidLoad: function(arg) {
             console.log("The cordova result(DidLoad): " + JSON.stringify(arg));
           },
           DidTapOnFollowWithoutLocation: function(arg) {
             console.log("The cordova result(DidTapOnFollowWithoutLocation): " + JSON.stringify(arg));
           },
-          DidTapOnMenu: function(arg) {
-            console.log("The cordova result(DidTapOnMenu): " + JSON.stringify(arg));
+          DidTapOnMenu: (arg) => {
+            console.log("The cordova result(DidTapOnMenu)...");
+            this.mapwizeView.close(
+              (res) => {console.log("MapwizeView close successfully returned: " + JSON.stringify(res))},
+              (err) => {console.log("MapwizeView close failed err: " + JSON.stringify(err))}
+            );
           },
           shouldShowInformationButtonFor: function(arg) {
             console.log("The cordova result(shouldShowInformationButtonFor): " + JSON.stringify(arg));
