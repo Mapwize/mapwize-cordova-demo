@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { AlertController, NavController } from 'ionic-angular';
 
 declare var Mapwize : any;
 
@@ -13,21 +13,47 @@ export class HomePage {
 	syncPeriodInSec: number;
 
   mapwizeView: any;
+  onLoadActionCallback: any;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,
+              private alertController: AlertController) {
 
   }
 
-  createClicked() {
-  	console.log("createClicked...");
-  	this.mapwizeView = Mapwize.createMapwizeView(
+  showMapClicked() {
+    console.log("showMapClicked...");
+    this.onLoadActionCallback = this.showMap;
+    this.create();
+  }
+
+  showCNDGClicked() {
+    console.log("showMapClicked...");
+    this.onLoadActionCallback = this.showMap;
+    this.createToCNDG();
+  }
+
+  selectPlaceClicked() {
+    console.log("selectPlaceClicked...");
+    this.onLoadActionCallback = this.selectPlace;
+    this.create();
+  }
+
+  selectPlaceListClicked() {
+    console.log("selectPlaceListClicked...");
+    this.onLoadActionCallback = this.selectPlaceList;
+    this.createToCNDG();
+  }
+
+  create() {
+    console.log("createClicked...");
+    this.mapwizeView = Mapwize.createMapwizeView(
       {
         floor: 0,
         language: "en",
         universeId: "",
         restrictContentToVenueId: "",
         restrictContentToOrganizationId: "",
-        centerOnVenueId: "56b20714c3fa800b00d8f0b5",
+        // centerOnVenueId: "56b20714c3fa800b00d8f0b5",
         // centerOnPlaceId: "5bc49413bf0ed600114db212"
       }, () => {
         console.log("createMapwizeView success...");
@@ -35,36 +61,62 @@ export class HomePage {
         console.log("createMapwizeView failed, err: " + JSON.stringify(err));
 
       });
-    this.setCallbackClicked();
-    // setTimeout(() => { 
-    //   console.log("timeout happened...");
-    //   this.mapwizeView.close(
-    //           (res) => {console.log("MapwizeView close successfully returned: " + JSON.stringify(res))},
-    //           (err) => {console.log("MapwizeView close failed err: " + JSON.stringify(err))}
-    //         );
-    // }, 6000);
+    this.setCallback();
   }
 
-  selectPlaceClicked() {
-    console.log("selectPlaceClicked...");
+  createToCNDG() {
+    console.log("createToCNDG...");
+    this.mapwizeView = Mapwize.createMapwizeView(
+      {
+        floor: 0,
+        language: "en",
+        universeId: "",
+        restrictContentToVenueId: "",
+        restrictContentToOrganizationId: "",
+        centerOnVenueId: "56b20877c3fa800b00d8f0b7",
+        // centerOnPlaceId: "5bc49413bf0ed600114db212"
+      }, () => {
+        console.log("createMapwizeView success...");
+      }, (err) => {
+        console.log("createMapwizeView failed, err: " + JSON.stringify(err));
+
+      });
+    this.setCallback();
+  }
+
+
+  close() {
+    console.log("close...");
+    this.mapwizeView.close(
+            (res) => {console.log("MapwizeView close successfully returned: " + JSON.stringify(res))},
+            (err) => {console.log("MapwizeView close failed err: " + JSON.stringify(err))}
+          );
+  }
+
+  showMap() {
+    console.log("showMap...");
+  }
+
+  selectPlace() {
+    console.log("selectPlace...");
     this.mapwizeView.selectPlace(
-        "5bc49413bf0ed600114db212", true, 
+        "5b28f9ac15007a001396cf81", true, 
         (res) => {console.log("Select place successfully returned: " + JSON.stringify(res))},
         (err) => {console.log("Select place failed err: " + JSON.stringify(err))}
       );
   }
 
-  selectPlaceListClicked() {
-    console.log("selectPlaceListClicked...");
+  selectPlaceList() {
+    console.log("selectPlaceList...");
     this.mapwizeView.selectPlaceList(
-        "5784fc5f7f2a900b0055f603", 
+        "57849c0f81bdd00b0039689d", 
         (res) => {console.log("Select places successfully returned: " + JSON.stringify(res))},
         (err) => {console.log("Select places failed err: " + JSON.stringify(err))}
       );
   } 
 
-  unselectClicked() {
-    console.log("unselectClicked...");
+  unselect() {
+    console.log("unselect...");
     this.mapwizeView.unselectContent(
         true,
         (res) => {console.log("unselectContent successfully returned: " + JSON.stringify(res))},
@@ -72,14 +124,18 @@ export class HomePage {
       );
   } 
 
-  setCallbackClicked() {
-    console.log("setCallbackClicked...");
+  setCallback() {
+    console.log("setCallback...");
     this.mapwizeView.setCallback(
         {
-          DidLoad: function(arg) {
-            console.log("The cordova result(DidLoad): " + JSON.stringify(arg));
+          DidLoad: (arg) => {
+            console.log("The cordova result(DidLoad)...");
+            // this.selectPlace();
+            if (this.onLoadActionCallback) {
+              this.onLoadActionCallback();
+            }
           },
-          DidTapOnFollowWithoutLocation: function(arg) {
+          DidTapOnFollowWithoutLocation: (arg) => {
             console.log("The cordova result(DidTapOnFollowWithoutLocation): " + JSON.stringify(arg));
           },
           DidTapOnMenu: (arg) => {
@@ -89,19 +145,33 @@ export class HomePage {
               (err) => {console.log("MapwizeView close failed err: " + JSON.stringify(err))}
             );
           },
-          shouldShowInformationButtonFor: function(arg) {
+          shouldShowInformationButtonFor: (arg) => {
             console.log("The cordova result(shouldShowInformationButtonFor): " + JSON.stringify(arg));
           },
-          TapOnPlaceInformationButton: function(place) {
+          TapOnPlaceInformationButton: (place) => {
             console.log("The cordova result: " + JSON.stringify(place));
             console.log("The cordova result: " + place._id);
-
-          },
-          TapOnPlacesInformationButton: function(arg) {
-            console.log("The cordova result(TapOnPlacesInformationButton): " + JSON.stringify(arg));
+            this.close();
+            this.presentAlert('Information', 'Place clicked', 'Information from place ' + place.name);
+           },
+          TapOnPlaceListInformationButton: (placeList) => {
+            console.log("The cordova result(TapOnPlaceListInformationButton): " + JSON.stringify(placeList));
+            this.close();
+            this.presentAlert('Information', 'PlaceList clicked', 'Information from placeList ' + placeList.name);
           }
         }
       );
-  } 
+  }
+
+  presentAlert(title: string, subTitle: string, message: string) {
+    console.log("presentAlert...");
+    const alert = this.alertController.create({
+        title: title,
+        subTitle: subTitle,
+        message: message,
+        buttons: ['OK']
+      });
+    alert.present();
+  }
 
 }
