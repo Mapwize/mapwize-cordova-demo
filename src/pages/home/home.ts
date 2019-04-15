@@ -14,6 +14,7 @@ export class HomePage {
 
   mapwizeView: any;
   onLoadActionCallback: any;
+  tapOnPlaceInfoCallback: any;
 
   constructor(public navCtrl: NavController,
               private alertController: AlertController) {
@@ -29,12 +30,20 @@ export class HomePage {
   showCNDGClicked() {
     console.log("showMapClicked...");
     this.onLoadActionCallback = this.showMap;
+    this.tapOnPlaceInfoCallback = this.handlePlaceInfoTapped;
     this.createToCNDG();
   }
 
   selectPlaceClicked() {
     console.log("selectPlaceClicked...");
     this.onLoadActionCallback = this.selectPlace;
+    this.tapOnPlaceInfoCallback = this.handlePlaceInfoTapped;
+    this.create();
+  }
+
+  setPlaceStyleClicked() {
+    console.log("setPlaceStyleClicked...");
+    this.tapOnPlaceInfoCallback = this.handleSetPlaceStyle;
     this.create();
   }
 
@@ -75,6 +84,7 @@ export class HomePage {
         restrictContentToOrganizationId: "",
         centerOnVenueId: "56b20877c3fa800b00d8f0b7",
         // centerOnPlaceId: "5bc49413bf0ed600114db212"
+        showCloseButton: "true"
       }, () => {
         console.log("createMapwizeView success...");
       }, (err) => {
@@ -95,6 +105,30 @@ export class HomePage {
 
   showMap() {
     console.log("showMap...");
+  }
+
+  handleSetPlaceStyle(place) {
+    console.log("place id: " + place._id)
+    this.mapwizeView.setPlaceStyle(
+            place._id,
+            {
+                "markerUrl": "https://res.cloudinary.com/contexeo/image/upload/v1548842542/Lego/meeting-red.png",
+                "markerDisplay": true,
+                "fillColor": "#d90a1b",
+                "fillOpacity": 0.5,
+                "strokeColor": "#d90a1b",
+                "strokeOpacity": 1,
+                "strokeWidth": 2
+            },
+            (res) => {console.log("MapwizeView setPlaceStyle successfully returned: " + JSON.stringify(res))},
+            (err) => {console.log("MapwizeView setPlaceStyle failed err: " + JSON.stringify(err))}
+          );
+     
+  }
+
+  handlePlaceInfoTapped(place) {
+    this.close();
+    this.presentAlert('Information', 'Place clicked', 'Information from place ' + place.name);
   }
 
   selectPlace() {
@@ -151,13 +185,18 @@ export class HomePage {
           TapOnPlaceInformationButton: (place) => {
             console.log("The cordova result: " + JSON.stringify(place));
             console.log("The cordova result: " + place._id);
-            this.close();
-            this.presentAlert('Information', 'Place clicked', 'Information from place ' + place.name);
+            if (this.tapOnPlaceInfoCallback) {
+              this.tapOnPlaceInfoCallback(place);
+            }
+            
            },
           TapOnPlaceListInformationButton: (placeList) => {
             console.log("The cordova result(TapOnPlaceListInformationButton): " + JSON.stringify(placeList));
             this.close();
             this.presentAlert('Information', 'PlaceList clicked', 'Information from placeList ' + placeList.name);
+          },
+          TapOnCloseButton: () => {
+            console.log("The cordova, TapOnCloseButton received... ");
           }
         }
       );
