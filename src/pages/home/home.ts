@@ -62,6 +62,7 @@ export class HomePage {
         universeId: "",
         restrictContentToVenueId: "",
         restrictContentToOrganizationId: "",
+        showCloseButton: false
         // centerOnVenueId: "56b20714c3fa800b00d8f0b5",
         // centerOnPlaceId: "5bc49413bf0ed600114db212"
       }, () => {
@@ -83,8 +84,7 @@ export class HomePage {
         restrictContentToVenueId: "",
         restrictContentToOrganizationId: "",
         centerOnVenueId: "56b20877c3fa800b00d8f0b7",
-        // centerOnPlaceId: "5bc49413bf0ed600114db212"
-        showCloseButton: "true"
+        showCloseButton: true
       }, () => {
         console.log("createMapwizeView success...");
       }, (err) => {
