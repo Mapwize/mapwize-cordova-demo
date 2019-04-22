@@ -27,7 +27,7 @@
         "cordova-android": "8.0.0",
         "cordova-ios": "5.0.0",
         "cordova-plugin-add-swift-support": "^1.7.2",
-        "cordova-plugin-cocoapod-support": "1.6.0",
+        "cordova-plugin-cocoapod-support": "^1.6.0",
         "cordova-plugin-customconfigparameters": "^3.0.0",
         "cordova-plugin-device": "^1.1.7",
         "cordova-plugin-ionic-webview": "^1.2.1",
@@ -57,7 +57,7 @@
             "cordova-plugin-customconfigparameters": {},
             "cordova-plugin-statusbar": {},
             "mapwize-cordova-plugin": {
-                "MWZMAPWIZEAPIKEY": "2b07d9bdd6088a500365d1cb056e506f"
+                "MWZMAPWIZEAPIKEY": "49bbfb7a60b958d76bbf57fc674c93de"
             }
         },
         "platforms": [
