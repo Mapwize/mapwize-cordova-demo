@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { AlertController, NavController } from 'ionic-angular';
 
 declare var Mapwize : any;
@@ -17,9 +17,11 @@ export class HomePage {
   apiManager: any;
   onLoadActionCallback: any;
   tapOnPlaceInfoCallback: any;
+  progress: any;
 
   constructor(public navCtrl: NavController,
-              private alertController: AlertController) {
+              private alertController: AlertController,
+              private zone: NgZone) {
 
   }
 
@@ -211,15 +213,30 @@ export class HomePage {
 
   downloadDataForVenueClicked() {
     console.log("downloadDataForVenueClicked...");
+    this.progress = 0.0;
     this.offlineManager.downloadDataForVenue(
       "56b20714c3fa800b00d8f0b5",
       "57ec94f8098881c02bdc5eb8",
       (args) => {
         console.log("args: " + JSON.stringify(args));
-
+        this.zone.run(() => { 
+            setTimeout(() => { 
+                this.progress = "";
+            }, 0) 
+         });
+        
+        this.presentAlert("Download Data For Venue", "Success", "");
       },
       (err) => {
         console.log("err: " + JSON.stringify(err));
+      },
+      (count) => {
+        console.log("progress: " + JSON.stringify(count));
+        this.zone.run(() => { 
+            setTimeout(() => { 
+                this.progress = " (" + count + "%)";
+            }, 0) 
+         });
       });
   }
 

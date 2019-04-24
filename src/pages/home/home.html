@@ -15,7 +15,8 @@
     <button ion-button full (click)="setPlaceStyleClicked()">Set Place Style</button>
     <ion-item-divider>Offline Manager</ion-item-divider>
     <button ion-button full (click)="createOfflineManagerClicked()">Create Offline Manager</button>
-    <button ion-button full (click)="downloadDataForVenueClicked()">Download data for venue</button>
+    <button ion-button full (click)="downloadDataForVenueClicked()">Download data for venue {{progress}}</button>
+    <!-- <progress-bar [value]="progress"></progress-bar> -->
     <button ion-button full (click)="isOfflineForVenueClicked()">Is offline for venue</button>
     <button ion-button full (click)="getOfflineVenuesClicked()">Get Offline Venues</button>
     <button ion-button full (click)="getOfflineUniversesForVenueClicked()">Get Offline Universes For Venue</button>
