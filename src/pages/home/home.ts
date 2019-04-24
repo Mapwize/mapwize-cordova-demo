@@ -221,18 +221,6 @@ export class HomePage {
       (err) => {
         console.log("err: " + JSON.stringify(err));
       });
-    // Wrong
-    // this.offlineManager.downloadDataForVenue(
-    //   "5a1d5e66fd0a770013edf0e2",
-    //   "5a0af0d6ff06440011ddae66",
-    //   (args) => {
-    //     console.log("args: " + JSON.stringify(args));
-
-    //   },
-    //   (err) => {
-    //     console.log("err: " + JSON.stringify(err));
-    //   });
-
   }
 
   isOfflineForVenueClicked() {
@@ -250,7 +238,51 @@ export class HomePage {
       });
   }
 
-  
+
+  getOfflineVenuesClicked() {
+    console.log("getOfflineVenuesClicked...");
+    this.offlineManager.getOfflineVenues(
+      (args) => {
+        console.log("args: " + JSON.stringify(args));
+        this.presentAlert("Get Offline Venues", "Success", "result: " + JSON.stringify(args));
+      },
+      (err) => {
+        console.log("err: " + JSON.stringify(err));
+        this.presentAlert("Get Offline Venues", "Failed", "result: " + JSON.stringify(err));
+      });
+  }
+
+  getOfflineUniversesForVenueClicked() {
+    console.log("getOfflineUniversesForVenueClicked...");
+    this.offlineManager.getOfflineUniversesForVenue(
+      "56b20714c3fa800b00d8f0b5",
+      (args) => {
+        console.log("args: " + JSON.stringify(args));
+        this.presentAlert("Get Offline Universes For Venue", "Success", "result: " + JSON.stringify(args));
+      },
+      (err) => {
+        console.log("err: " + JSON.stringify(err));
+        this.presentAlert("Get Offline Universes For Venue", "Failed", "result: " + JSON.stringify(err));
+      });
+  }
+
+  createApiManagerClicked() {
+    console.log("createApiManagerClicked...");
+    this.apiManager = Mapwize.createApiManager();
+  }
+
+  getPlacesWithAliasClicked() {
+    console.log("getPlacesWithAliasClicked...");
+    this.apiManager.getPlaceWithAlias(
+      "mapwize",
+      "56b20714c3fa800b00d8f0b5",
+      (args) => {
+        console.log("args: " + JSON.stringify(args));
+      },
+      (err) => {
+        console.log("err: " + JSON.stringify(err));
+      });
+  }
 
   presentAlert(title: string, subTitle: string, message: string) {
     console.log("presentAlert...");
