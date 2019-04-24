@@ -206,14 +206,14 @@ export class HomePage {
 
   createOfflineManagerClicked() {
     console.log("downloadDataForVenueClicked...");
-    this.offlineManager = Mapwize.createOfflineManager();
+    this.offlineManager = Mapwize.createOfflineManager("https://outdoor.mapwize.io/styles/mapwize/style.json?key=49bbfb7a60b958d76bbf57fc674c93de");
   }
 
   downloadDataForVenueClicked() {
     console.log("downloadDataForVenueClicked...");
     this.offlineManager.downloadDataForVenue(
-      "5a1d5e66fd0a770013edf0e2",
-      "5a0af0d6ff06440011ddae66",
+      "56b20714c3fa800b00d8f0b5",
+      "57ec94f8098881c02bdc5eb8",
       (args) => {
         console.log("args: " + JSON.stringify(args));
 
@@ -221,7 +221,33 @@ export class HomePage {
       (err) => {
         console.log("err: " + JSON.stringify(err));
       });
+    // Wrong
+    // this.offlineManager.downloadDataForVenue(
+    //   "5a1d5e66fd0a770013edf0e2",
+    //   "5a0af0d6ff06440011ddae66",
+    //   (args) => {
+    //     console.log("args: " + JSON.stringify(args));
 
+    //   },
+    //   (err) => {
+    //     console.log("err: " + JSON.stringify(err));
+    //   });
+
+  }
+
+  isOfflineForVenueClicked() {
+    console.log("isOfflineForVenueClicked...");
+    this.offlineManager.isOfflineForVenue(
+      "56b20714c3fa800b00d8f0b5",
+      "57ec94f8098881c02bdc5eb8",
+      (args) => {
+        console.log("args: " + JSON.stringify(args));
+        this.presentAlert("Is Offline for Venue", "Success", "result: " + JSON.stringify(args));
+      },
+      (err) => {
+        console.log("err: " + JSON.stringify(err));
+        this.presentAlert("Is Offline for Venue", "Failed", "result: " + JSON.stringify(err));
+      });
   }
 
   
