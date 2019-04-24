@@ -13,6 +13,8 @@ export class HomePage {
 	syncPeriodInSec: number;
 
   mapwizeView: any;
+  offlineManager: any;
+  apiManager: any;
   onLoadActionCallback: any;
   tapOnPlaceInfoCallback: any;
 
@@ -201,6 +203,28 @@ export class HomePage {
         }
       );
   }
+
+  createOfflineManagerClicked() {
+    console.log("downloadDataForVenueClicked...");
+    this.offlineManager = Mapwize.createOfflineManager();
+  }
+
+  downloadDataForVenueClicked() {
+    console.log("downloadDataForVenueClicked...");
+    this.offlineManager.downloadDataForVenue(
+      "5a1d5e66fd0a770013edf0e2",
+      "5a0af0d6ff06440011ddae66",
+      (args) => {
+        console.log("args: " + JSON.stringify(args));
+
+      },
+      (err) => {
+        console.log("err: " + JSON.stringify(err));
+      });
+
+  }
+
+  
 
   presentAlert(title: string, subTitle: string, message: string) {
     console.log("presentAlert...");
