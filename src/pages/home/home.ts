@@ -301,6 +301,324 @@ export class HomePage {
       });
   }
 
+  getPlacePromise(id) {
+    let placePromise = new Promise((resolve, reject) => {
+      this.apiManager.getPlaceWithId(
+      id,
+      (args) => {
+        console.log("args: " + JSON.stringify(args));
+        resolve(args);
+      },
+      (err) => {
+        console.log("err: " + JSON.stringify(err));
+        reject(err);
+      });
+    })
+
+    return placePromise;
+  }
+
+
+  getDirectionsClicked() {
+    let placePromise1 = this.getPlacePromise("574843792337c60b006032f9");
+    let placePromise2 = this.getPlacePromise("57036d40b247f50b00a07472");
+    let placePromise3 = this.getPlacePromise("57036cd6b247f50b00a0746e");
+
+    Promise.all([placePromise1, placePromise2, placePromise3]).then((values) => {
+      console.log("Place...values: " + JSON.stringify(values));
+      let dp1 = values[0];
+      let dp2 = values[1];
+      let dp3 = values[2];
+
+      this.apiManager.getDirectionWithFrom(
+        dp1,
+        dp2,
+        false,
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithFrom, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithFrom, err: " + JSON.stringify(err));
+        });
+
+      this.apiManager.getDirectionWithDirectionPointsFrom(
+        dp1,
+        [dp2],
+        false,
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithDirectionPointsFrom, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithDirectionPointsFrom, err: " + JSON.stringify(err));
+        });
+
+      this.apiManager.getDirectionWithWayPointsFrom(
+        dp1,
+        dp2,
+        [dp3],
+        false,
+        false,
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithWayPointsFrom, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithWayPointsFrom, err: " + JSON.stringify(err));
+        });
+
+      this.apiManager.getDirectionWithDirectionAndWayPointsFrom(
+        dp1,
+        [dp2],
+        [dp3],
+        false,
+        false,
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithDirectionAndWayPointsFrom, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getDirectionWithDirectionAndWayPointsFrom, err: " + JSON.stringify(err));
+        });
+    });
+   
+  }
+
+  getVenuesClicked() {
+    this.apiManager.getVenueWithId(
+        "56b20714c3fa800b00d8f0b5",
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getVenueWithId, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getVenueWithId, err: " + JSON.stringify(err));
+        });
+
+    this.apiManager.getVenueWithName(
+        "Euratechnologies",
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getVenueWithName, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getVenueWithName, err: " + JSON.stringify(err));
+        });
+
+    this.apiManager.getVenuesWithFilter(
+        {venueId: "56b20714c3fa800b00d8f0b5"},
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getVenuesWithFilter, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getVenuesWithFilter, err: " + JSON.stringify(err));
+        });
+  }
+
+  getPlaceClicked() {
+      this.apiManager.getPlaceWithId(
+        "574843792337c60b006032f9",
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getPlaceWithId, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getPlaceWithId, err: " + JSON.stringify(err));
+        });
+
+      this.apiManager.getPlaceWithName(
+        "Conciergerie Solutis",
+        "56b20714c3fa800b00d8f0b5",
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getPlaceWithName, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getPlaceWithName, err: " + JSON.stringify(err));
+        });
+
+      this.apiManager.getPlaceWithAlias(
+        "conciergerie_solutis",
+        "56b20714c3fa800b00d8f0b5",
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getPlaceWithAlias, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getPlaceWithAlias, err: " + JSON.stringify(err));
+        });
+
+      this.apiManager.getPlacesWithFilter(
+        {alias: "conciergerie_solutis",
+         venueId: "56b20714c3fa800b00d8f0b5"},
+        (args) => {
+          console.log("***********************************************************************");
+          console.log("getPlacesWithFilter, arg: " + JSON.stringify(args));
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("getPlacesWithFilter, err: " + JSON.stringify(err));
+        });
+  }
+
+  getPlaceListClicked() {
+      this.apiManager.getPlaceListWithId(
+          "57e02e48a4613c0b00cdb9be",
+          (args) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListWithId, arg: " + JSON.stringify(args));
+          },
+          (err) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListWithId, err: " + JSON.stringify(err));
+          });
+
+      this.apiManager.getPlaceListWithName(
+          "Toilettes",
+          "5751936ca5b1b70b000f5f84",
+          (args) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListWithName, arg: " + JSON.stringify(args));
+          },
+          (err) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListWithName, err: " + JSON.stringify(err));
+          });
+
+      this.apiManager.getPlaceListWithAlias(
+          "toilettes",
+          "5751936ca5b1b70b000f5f84",
+          (args) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListWithAlias, arg: " + JSON.stringify(args));
+          },
+          (err) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListWithAlias, err: " + JSON.stringify(err));
+          });
+
+      this.apiManager.getPlaceListsWithFilter(
+          {alias: "toilettes",
+           venueId: "5751936ca5b1b70b000f5f84"},
+          (args) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListsWithFilter, arg: " + JSON.stringify(args));
+          },
+          (err) => {
+            console.log("***********************************************************************");
+            console.log("getPlaceListsWithFilter, err: " + JSON.stringify(err));
+          });
+  }
+
+
+  getUniverseClicked() {
+      this.apiManager.getUniverseWithId(
+            "57ec94f8098881c02bdc5eb8",
+            (args) => {
+              console.log("***********************************************************************");
+              console.log("getUniverseWithId, arg: " + JSON.stringify(args));
+            },
+            (err) => {
+              console.log("***********************************************************************");
+              console.log("getUniverseWithId, err: " + JSON.stringify(err));
+            });
+
+      this.apiManager.getUniversesWithFilter(
+            {venueId: "5751936ca5b1b70b000f5f84"},
+            (args) => {
+              console.log("***********************************************************************");
+              console.log("getUniversesWithFilter, arg: " + JSON.stringify(args));
+            },
+            (err) => {
+              console.log("***********************************************************************");
+              console.log("getUniversesWithFilter, err: " + JSON.stringify(err));
+            });
+
+      this.apiManager.getAccessibleUniversesWithVenue(
+            "5751936ca5b1b70b000f5f84",
+            (args) => {
+              console.log("***********************************************************************");
+              console.log("getAccessibleUniversesWithVenue, arg: " + JSON.stringify(args));
+            },
+            (err) => {
+              console.log("***********************************************************************");
+              console.log("getAccessibleUniversesWithVenue, err: " + JSON.stringify(err));
+            }); 
+  }
+
+  
+  getShortresult(arr) {
+    var res = [];
+    arr.forEach(s => {
+      res.push({alias: s.alias, name: s.name});
+    });
+
+    return res;
+  }
+
+  doSearchClicked() {
+    console.log("doSearchClicked...");
+    this.apiManager.searchWithParams(
+        {query: 'MapWize'},
+        (args) => {
+          console.log("***********************************************************************");
+          let res = this.getShortresult(args);
+          console.log("searchWithParams, arg: " + JSON.stringify(res));
+          this.presentAlert('Search', 'The result(s)', JSON.stringify(res))
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("searchWithParams, err: " + JSON.stringify(err));
+        }); 
+  }
+
+
+
+
+
+  
+
+
+
+  getDistanceClicked() {
+    let placePromise1 = this.getPlacePromise("574843792337c60b006032f9");
+    let placePromise2 = this.getPlacePromise("57036d40b247f50b00a07472");
+
+    Promise.all([placePromise1, placePromise2]).then((values) => {
+      console.log("Place...values: " + JSON.stringify(values));
+      let from = values[0];
+      let toList = [values[1]];
+      this.apiManager.getDistanceWithFrom(
+        from,
+        toList,
+        false,
+        false,
+        (args) => {
+          console.log("getDistanceWithFrom, arg: " + JSON.stringify(args));
+          this.presentAlert("Distance", "Success", JSON.stringify(args, null, 4));
+        },
+        (err) => {
+          console.log("getDistanceWithFrom, err: " + JSON.stringify(err));
+          this.presentAlert("Distance", "Failed", JSON.stringify(err));
+        });
+    });
+
+  }
+
+
+
   presentAlert(title: string, subTitle: string, message: string) {
     console.log("presentAlert...");
     const alert = this.alertController.create({
