@@ -66,7 +66,10 @@ export class HomePage {
         universeId: "",
         restrictContentToVenueId: "",
         restrictContentToOrganizationId: "",
-        showCloseButton: false
+        showCloseButton: false,
+        showInformationButtonForPlaces: true,
+        showInformationButtonForPlaceLists: false
+
         // centerOnVenueId: "56b20714c3fa800b00d8f0b5",
         // centerOnPlaceId: "5bc49413bf0ed600114db212"
       }, () => {
@@ -90,9 +93,9 @@ export class HomePage {
         centerOnVenueId: "56b20877c3fa800b00d8f0b7",
         showCloseButton: true
       }, () => {
-        console.log("createMapwizeView success...");
+        console.log("createMapwizeView CNDG success...");
       }, (err) => {
-        console.log("createMapwizeView failed, err: " + JSON.stringify(err));
+        console.log("createMapwizeView CNDG failed, err: " + JSON.stringify(err));
 
       });
     this.setCallback();
@@ -144,6 +147,7 @@ export class HomePage {
       );
   }
 
+// 57e02e48a4613c0b00cdb9be
   selectPlaceList() {
     console.log("selectPlaceList...");
     this.mapwizeView.selectPlaceList(
