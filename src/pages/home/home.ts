@@ -19,11 +19,54 @@ export class HomePage {
   tapOnPlaceInfoCallback: any;
   progress: any;
 
+  callbacks: any = {
+    DidLoad: (arg) => {
+      console.log("The cordova result(DidLoad)...");
+      // this.selectPlace();
+      if (this.onLoadActionCallback) {
+        this.onLoadActionCallback();
+      }
+    },
+    DidTapOnFollowWithoutLocation: (arg) => {
+      console.log("The cordova result(DidTapOnFollowWithoutLocation): " + JSON.stringify(arg));
+    },
+    DidTapOnMenu: (arg) => {
+      console.log("The cordova result(DidTapOnMenu)...");
+      this.mapwizeView.close(
+        (res) => {console.log("MapwizeView close successfully returned: " + JSON.stringify(res))},
+        (err) => {console.log("MapwizeView close failed err: " + JSON.stringify(err))}
+      );
+    },
+    shouldShowInformationButtonFor: (arg) => {
+      console.log("The cordova result(shouldShowInformationButtonFor): " + JSON.stringify(arg));
+    },
+    TapOnPlaceInformationButton: (place) => {
+      console.log("The cordova result: " + JSON.stringify(place));
+      console.log("The cordova result: " + place._id);
+      if (this.tapOnPlaceInfoCallback) {
+        this.tapOnPlaceInfoCallback(place);
+      }
+      
+     },
+    TapOnPlaceListInformationButton: (placeList) => {
+      console.log("The cordova result(TapOnPlaceListInformationButton): " + JSON.stringify(placeList));
+      this.close();
+      this.presentAlert('Information', 'PlaceList clicked', 'Information from placeList ' + placeList.name);
+    },
+    TapOnCloseButton: () => {
+      console.log("The cordova, TapOnCloseButton received... ");
+    }
+  };
+
+
+
   constructor(public navCtrl: NavController,
               private alertController: AlertController,
               private zone: NgZone) {
 
   }
+
+
 
   showMapClicked() {
     console.log("showMapClicked...");
@@ -71,13 +114,14 @@ export class HomePage {
 
         // centerOnVenueId: "56b20714c3fa800b00d8f0b5",
         // centerOnPlaceId: "5bc49413bf0ed600114db212"
-      }, () => {
+      },
+      () => {
         console.log("createMapwizeView success...");
       }, (err) => {
         console.log("createMapwizeView failed, err: " + JSON.stringify(err));
 
       });
-    this.setCallback();
+      this.setCallback();
   }
 
   createToCNDG() {
@@ -91,13 +135,14 @@ export class HomePage {
         restrictContentToOrganizationId: "",
         centerOnVenueId: "56b20877c3fa800b00d8f0b7",
         showCloseButton: true
-      }, () => {
+      }, 
+      () => {
         console.log("createMapwizeView CNDG success...");
       }, (err) => {
         console.log("createMapwizeView CNDG failed, err: " + JSON.stringify(err));
 
       });
-    this.setCallback();
+      this.setCallback();
   }
 
 
@@ -168,44 +213,7 @@ export class HomePage {
   setCallback() {
     console.log("setCallback...");
     this.mapwizeView.setCallback(
-        {
-          DidLoad: (arg) => {
-            console.log("The cordova result(DidLoad)...");
-            // this.selectPlace();
-            if (this.onLoadActionCallback) {
-              this.onLoadActionCallback();
-            }
-          },
-          DidTapOnFollowWithoutLocation: (arg) => {
-            console.log("The cordova result(DidTapOnFollowWithoutLocation): " + JSON.stringify(arg));
-          },
-          DidTapOnMenu: (arg) => {
-            console.log("The cordova result(DidTapOnMenu)...");
-            this.mapwizeView.close(
-              (res) => {console.log("MapwizeView close successfully returned: " + JSON.stringify(res))},
-              (err) => {console.log("MapwizeView close failed err: " + JSON.stringify(err))}
-            );
-          },
-          shouldShowInformationButtonFor: (arg) => {
-            console.log("The cordova result(shouldShowInformationButtonFor): " + JSON.stringify(arg));
-          },
-          TapOnPlaceInformationButton: (place) => {
-            console.log("The cordova result: " + JSON.stringify(place));
-            console.log("The cordova result: " + place._id);
-            if (this.tapOnPlaceInfoCallback) {
-              this.tapOnPlaceInfoCallback(place);
-            }
-            
-           },
-          TapOnPlaceListInformationButton: (placeList) => {
-            console.log("The cordova result(TapOnPlaceListInformationButton): " + JSON.stringify(placeList));
-            this.close();
-            this.presentAlert('Information', 'PlaceList clicked', 'Information from placeList ' + placeList.name);
-          },
-          TapOnCloseButton: () => {
-            console.log("The cordova, TapOnCloseButton received... ");
-          }
-        }
+      this.callbacks
       );
   }
 
