@@ -66,7 +66,6 @@ export class HomePage {
         universeId: "",
         restrictContentToVenueId: "",
         restrictContentToOrganizationId: "",
-        showCloseButton: false,
         showInformationButtonForPlaces: true,
         showInformationButtonForPlaceLists: false
 
