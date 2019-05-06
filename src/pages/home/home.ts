@@ -587,12 +587,23 @@ export class HomePage {
           console.log("***********************************************************************");
           let res = this.getShortresult(args);
           console.log("searchWithParams, arg: " + JSON.stringify(res));
-          this.presentAlert('Search', 'The result(s)', JSON.stringify(res))
         },
         (err) => {
           console.log("***********************************************************************");
           console.log("searchWithParams, err: " + JSON.stringify(err));
         }); 
+  }
+
+  destroyMapwizeView() {
+    Mapwize.destroyMapwizeView((args) => {
+          console.log("***********************************************************************");
+          console.log("destroyMapwizeView, ...");
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("destroyMapwizeView, err: " + JSON.stringify(err));
+        });
+    delete this.mapwizeView;
   }
 
 
