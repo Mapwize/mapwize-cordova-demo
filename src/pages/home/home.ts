@@ -594,18 +594,6 @@ export class HomePage {
         }); 
   }
 
-  destroyMapwizeView() {
-    Mapwize.destroyMapwizeView((args) => {
-          console.log("***********************************************************************");
-          console.log("destroyMapwizeView, ...");
-        },
-        (err) => {
-          console.log("***********************************************************************");
-          console.log("destroyMapwizeView, err: " + JSON.stringify(err));
-        });
-    delete this.mapwizeView;
-  }
-
   getDistanceClicked() {
     let placePromise1 = this.getPlacePromise("574843792337c60b006032f9");
     let placePromise2 = this.getPlacePromise("57036d40b247f50b00a07472");
