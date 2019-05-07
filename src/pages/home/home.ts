@@ -8,9 +8,9 @@ declare var Mapwize : any;
   templateUrl: 'home.html'
 })
 export class HomePage {
-	url: string;
+  url: string;
   token: string;
-	syncPeriodInSec: number;
+  syncPeriodInSec: number;
 
   mapwizeView: any;
   offlineManager: any;
@@ -587,7 +587,6 @@ export class HomePage {
           console.log("***********************************************************************");
           let res = this.getShortresult(args);
           console.log("searchWithParams, arg: " + JSON.stringify(res));
-          this.presentAlert('Search', 'The result(s)', JSON.stringify(res))
         },
         (err) => {
           console.log("***********************************************************************");
@@ -595,13 +594,17 @@ export class HomePage {
         }); 
   }
 
-
-
-
-
-  
-
-
+  destroyMapwizeView() {
+    Mapwize.destroyMapwizeView((args) => {
+          console.log("***********************************************************************");
+          console.log("destroyMapwizeView, ...");
+        },
+        (err) => {
+          console.log("***********************************************************************");
+          console.log("destroyMapwizeView, err: " + JSON.stringify(err));
+        });
+    delete this.mapwizeView;
+  }
 
   getDistanceClicked() {
     let placePromise1 = this.getPlacePromise("574843792337c60b006032f9");
