@@ -1,0 +1,12 @@
+#<string name="time_placeholder">%1$d min</string>
+#<string name="floor_placeholder">Étage %1$s</string>
+#<string name="search_in_placeholder">Rechercher dans %1$s…</string>
+#<string name="search_venue">Rechercher un lieu…</string>
+#<string name="loading_venue_placeholder">Chargement %1$s…</string>
+#<string name="current_location">Localisation actuelle</string>
+#<string name="choose_language">Choisissez votre langue</string>
+#<string name="choose_universe">Choisissez votre univers</string>
+#<string name="direction">Direction</string>
+#<string name="information">Information</string>
+#<string name="starting_point">Point de départ</string>
+#<string name="destination">Destination</string>
