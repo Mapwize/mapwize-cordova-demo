@@ -26,7 +26,7 @@
     "@ionic/storage": "2.1.3",
     "angular-progress-bar": "^1.0.9",
     "cordova-android": "8.0.0",
-    "cordova-ios": "5.1.1",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-add-swift-support": "^1.7.2",
     "cordova-plugin-cocoapod-support": "^1.6.0",
     "cordova-plugin-customconfigparameters": "^3.0.0",
@@ -38,7 +38,7 @@
     "ionic-angular": "3.9.2",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
-    "mapwize-cordova": "^1.3.0",
+    "mapwize-cordova": "file:../../git/mapwize-cordova",
     "rxjs": "5.5.2",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.18"

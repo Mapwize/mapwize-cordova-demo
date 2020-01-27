@@ -24,6 +24,7 @@ export class HomePage {
       console.log("The cordova result(DidLoad)...");
       if (this.onLoadActionCallback) {
         this.onLoadActionCallback();
+        this.onLoadActionCallback = null;
       }
     },
     DidTapOnFollowWithoutLocation: (arg) => {
@@ -40,8 +41,8 @@ export class HomePage {
       console.log("The cordova result(shouldShowInformationButtonFor): " + JSON.stringify(arg));
     },
     TapOnPlaceInformationButton: (place) => {
-      console.log("The cordova result: " + JSON.stringify(place));
-      console.log("The cordova result: " + place._id);
+      console.log("TapOnPlaceInformationButton, The cordova result, place: " + JSON.stringify(place));
+      console.log("TapOnPlaceInformationButton, The cordova result, id: " + place._id);
       if (this.tapOnPlaceInfoCallback) {
         this.tapOnPlaceInfoCallback(place);
       }
@@ -92,22 +93,42 @@ export class HomePage {
   selectPlaceListClicked() {
     console.log("selectPlaceListClicked...");
     this.onLoadActionCallback = this.selectPlaceList;
-    this.createToCNDG();
+    this.tapOnPlaceInfoCallback = this.handlePlaceInfoTapped;
+    this.create();
+    // this.createToCNDG();
   }
 
   setDirectionClicked() {
     console.log("setDirectionClicked...");
-    this.getPlacePromise("5dd5c80332a5f30018856bee").then(value1 => {  // novadvis 
-      console.log("setDirection1, value1...");
-      this.getPlacePromise("5d096370efe1d2001280e5d5").then(value2 => { // 
-        console.log("setDirection1, value2...");
+    let placePromise1 = this.getPlacePromise("5dd5c80332a5f30018856bee");// novadvis 
+    let placePromise2 = this.getPlacePromise("5d096370efe1d2001280e5d5");
 
-        this.onLoadActionCallback = () => {this.setDirection(value1, value2);};
+    Promise.all([placePromise1, placePromise2]).then(values => {
+      let dp1 = values[0];
+      let dp2 = values[1];
+
+      this.getDirectionPromise(dp1, dp2).then(direction => {
+        console.log("getDirectionPromise, direction..." + JSON.stringify(direction));
+        this.onLoadActionCallback = () => {this.setDirection(direction, dp1, dp2);};
         this.create();
-        
-      })
-    })
+      });      
+
+    });   
   }
+
+  // setDirectionClicked() {
+  //   console.log("setDirectionClicked...");
+  //   this.getPlacePromise("5dd5c80332a5f30018856bee").then(value1 => {  // novadvis 
+  //     console.log("setDirection1, value1...");
+  //     this.getPlacePromise("5d096370efe1d2001280e5d5").then(value2 => { // 
+  //       console.log("setDirection1, value2...");
+
+  //       this.onLoadActionCallback = () => {this.setDirection(value1, value2);};
+  //       this.create();
+        
+  //     })
+  //   })
+  // }
 
 
   create() {
@@ -119,11 +140,11 @@ export class HomePage {
         universeId: "",
         restrictContentToVenueId: "",
         restrictContentToOrganizationId: "",
+        mainColor: "#FF0000",
         showInformationButtonForPlaces: true,
         showInformationButtonForPlaceLists: false
       },
       {
-        mainColor: "#FF0000",
         menuButtonIsHidden: false,
         followUserButtonIsHidden: false,
         floorControllerIsHidden: false,
@@ -147,11 +168,11 @@ export class HomePage {
         universeId: "",
         restrictContentToVenueId: "",
         restrictContentToOrganizationId: "",
+        mainColor: "#FF0000",
         centerOnVenueId: "56b20714c3fa800b00d8f0b5",
         showCloseButton: true
       },
       {
-        mainColor: "#FF0000",
         menuButtonIsHidden: true,
         followUserButtonIsHidden: true,
         floorControllerIsHidden: true,
@@ -216,9 +237,9 @@ export class HomePage {
   selectPlaceList() {
     console.log("selectPlaceList...");
     this.mapwizeView.selectPlaceList(
-        "57036d40b247f50b00a07472", 
-        (res) => {console.log("Select places successfully returned: " + JSON.stringify(res))},
-        (err) => {console.log("Select places failed err: " + JSON.stringify(err))}
+        "584c46b2d0407c0c00813e6f", 
+        (res) => {console.log("selectPlaceList successfully returned: " + JSON.stringify(res))},
+        (err) => {console.log("selectPlaceList failed err: " + JSON.stringify(err))}
       );
   } 
 
@@ -234,8 +255,21 @@ export class HomePage {
 
   }
 
-  setDirection(value1, value2) {
+  setDirection(direction, fromPoint, toPoint) {
     console.log("home setDirection...");
+    console.log("setDirection1, value2...");
+    this.mapwizeView.setDirection(
+      direction,
+      fromPoint,
+      toPoint,
+      false,
+      (res) => {console.log("setDirection successfully returned: " + JSON.stringify(res))},
+      (err) => {console.log("setDirection failed err: " + JSON.stringify(err))}
+      );
+  } 
+
+  setDirectionOld(value1, value2) {
+    console.log("home setDirectionOld...");
     console.log("setDirection1, value2...");
     this.mapwizeView.setDirection(
       {
@@ -394,7 +428,7 @@ export class HomePage {
   }
 
   createOfflineManagerClicked() {
-    console.log("downloadDataForVenueClicked...");
+    console.log("createOfflineManagerClicked...");
     this.offlineManager = Mapwize.createOfflineManager("https://outdoor.mapwize.io/styles/mapwize/style.json?key=3dda5b4dcb336838288b858b38840c7a");
   }
 
@@ -489,7 +523,7 @@ export class HomePage {
   }
 
   getPlacePromise(id) {
-    let placePromise = new Promise<any>((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       this.apiManager.getPlaceWithId(
       id,
       (args) => {
@@ -502,9 +536,25 @@ export class HomePage {
         console.log("getPlacePromise, err: " + JSON.stringify(err));
         reject(err);
       });
-    })
+    });
+  }
 
-    return placePromise;
+  getDirectionPromise(dp1, dp2) {
+    return new Promise<any>((resolve, reject) => {
+      this.apiManager.getDirectionWithFrom(
+        dp1,
+        dp2,
+        false,
+      (args) => {
+        console.log("getDirectionPromise, args: ");
+        resolve(args);
+        console.log("getDirectionPromise, end");
+      },
+      (err) => {
+        console.log("getDirectionPromise, err: " + JSON.stringify(err));
+        reject(err);
+      });
+    });
   }
 
   getDirectionClicked() {
@@ -802,8 +852,8 @@ export class HomePage {
       this.apiManager.getDistancesWithFrom(
         from,
         toList,
-        false,
-        false,
+        false, //isAccessible
+        true,  //sortByTraveltime
         (args) => {
           console.log("getDistancesWithFrom, arg: " + JSON.stringify(args));
         },
