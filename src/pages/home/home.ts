@@ -116,21 +116,6 @@ export class HomePage {
     });   
   }
 
-  // setDirectionClicked() {
-  //   console.log("setDirectionClicked...");
-  //   this.getPlacePromise("5dd5c80332a5f30018856bee").then(value1 => {  // novadvis 
-  //     console.log("setDirection1, value1...");
-  //     this.getPlacePromise("5d096370efe1d2001280e5d5").then(value2 => { // 
-  //       console.log("setDirection1, value2...");
-
-  //       this.onLoadActionCallback = () => {this.setDirection(value1, value2);};
-  //       this.create();
-        
-  //     })
-  //   })
-  // }
-
-
   create() {
     console.log("createClicked...");
     this.mapwizeView = Mapwize.createMapwizeView(
@@ -429,7 +414,7 @@ export class HomePage {
 
   createOfflineManagerClicked() {
     console.log("createOfflineManagerClicked...");
-    this.offlineManager = Mapwize.createOfflineManager("https://outdoor.mapwize.io/styles/mapwize/style.json?key=3dda5b4dcb336838288b858b38840c7a");
+    this.offlineManager = Mapwize.createOfflineManager("https://outdoor.mapwize.io/styles/mapwize/style.json?key=<<STYLE URL>>"); //TODO
   }
 
   downloadDataForVenueClicked() {
