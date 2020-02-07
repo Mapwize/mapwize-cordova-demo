@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.mapwize.test" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.mapwize.test" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Mapwize Tester</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="laszlo.70.blum@gmail.com" href="laszloblum.wixsite.com/laszloblum">Laszlo Blum</author>
