@@ -38,6 +38,7 @@
     "ionic-angular": "3.9.2",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
+    "mapwize-cordova": "file:../../git/mapwize-cordova",
     "rxjs": "5.5.2",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.18"
@@ -55,7 +56,10 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-customconfigparameters": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "mapwize-cordova-plugin": {
+        "MWZAPIKEY": "3dda5b4dcb336838288b858b38840c7a"
+      }
     },
     "platforms": [
       "android",
